@@ -1,0 +1,54 @@
+{% extends "_base_dashboard.html" %}
+{% load humanize %}
+
+{% block title %}Savings{% endblock %}
+
+{% block content %}
+<div class="px-6 max-w-7xl mx-auto">
+    <h2 class="text-3xl font-semibold text-gray-700 dark:text-gray-400">Savings Overview</h2>
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+            <p class="text-sm text-gray-500">Total Savings</p>
+            <p class="text-3xl font-bold">${{ total_savings_balance|floatformat:2|intcomma }}</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+            <p class="text-sm text-gray-500">MTD Savings</p>
+            <p class="text-3xl font-bold text-green-600">${{ mtd_savings|floatformat:2|intcomma }}</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+            <p class="text-sm text-gray-500">YTD Savings</p>
+            <p class="text-3xl font-bold text-green-600">${{ ytd_savings|floatformat:2|intcomma }}</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+            <p class="text-sm text-gray-500">To Goal</p>
+            <p class="text-3xl font-bold">${{ to_goal|floatformat:2|intcomma }}</p>
+        </div>
+    </div>
+
+    <!-- Savings Accounts List -->
+    <div class="mt-12">
+        <h3 class="text-xl font-semibold">Savings Accounts</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+            {% for acc in savings_accounts %}
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+                <p class="font-medium">{{ acc.name }} ({{ acc.item.institution_name }})</p>
+                <p class="text-2xl font-bold">${{ acc.current_balance|floatformat:2|intcomma }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Goals Section -->
+    {% if savings_goals %}
+    <div class="mt-12">
+        <h3 class="text-xl font-semibold">Savings Goals</h3>
+        <!-- Cards or table with progress bars (use Tailwind + Alpine) -->
+    </div>
+    {% endif %}
+
+    <!-- Recent Activity -->
+    <!-- Similar to dashboard recent transactions, filtered -->
+</div>
+{% endblock %}

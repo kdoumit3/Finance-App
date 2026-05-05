@@ -1,0 +1,58 @@
+{% extends "_base_dashboard.html" %}
+{% load humanize %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block content %}
+<div class="px-6 max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-semibold text-gray-700 dark:text-gray-400">All Transactions</h2>
+        <a href="{% url 'budget' %}" class="text-blue-600 hover:underline">← Back to Budget</a>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow overflow-hidden">
+        <table class="w-full">
+            <thead class="bg-gray-50 dark:bg-gray-700">
+                <tr>
+                    <th class="px-6 py-4 text-left">Date</th>
+                    <th class="px-6 py-4 text-left">Description</th>
+                    <th class="px-6 py-4 text-left">Account</th>
+                    <th class="px-6 py-4 text-right">Amount</th>
+                    <th class="px-6 py-4 text-left">Category</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                {% for tx in transactions %}
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <td class="px-6 py-4 whitespace-nowrap">{{ tx.date }}</td>
+                    <td class="px-6 py-4">
+                        <div>{{ tx.name }}</div>
+                        {% if tx.merchant_name %}<small class="text-gray-500">{{ tx.merchant_name }}</small>{% endif %}
+                    </td>
+                    <td class="px-6 py-4">{{ tx.account.name }}</td>
+                    <td class="px-6 py-4 text-right font-medium 
+                        {% if tx.amount < 0 %}text-red-600{% else %}text-green-600{% endif %}">
+                        ${{ tx.amount|floatformat:2|intcomma }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {% if tx.category %}
+                            <span class="inline-block px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
+                                {{ tx.category.name }}
+                            </span>
+                        {% else %}
+                            <span class="text-gray-400 text-sm">Uncategorized</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="px-6 py-12 text-center text-gray-500">
+                        No transactions found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

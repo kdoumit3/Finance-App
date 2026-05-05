@@ -1,0 +1,51 @@
+{% extends "_base_dashboard.html" %}
+{% load humanize %}
+
+{% block title %}Loans & Debt{% endblock %}
+
+{% block content %}
+<div class="px-6 max-w-7xl mx-auto">
+    <h2 class="text-3xl font-semibold text-gray-700 dark:text-gray-400">Loans & Debt</h2>
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
+            <p class="text-sm text-gray-500">Total Debt</p>
+            <p class="text-4xl font-bold text-red-600">${{ total_debt|floatformat:2|intcomma }}</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
+            <p class="text-sm text-gray-500">Credit Cards</p>
+            <p class="text-3xl font-bold text-orange-600">${{ total_credit_card_debt|floatformat:2|intcomma }}</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
+            <p class="text-sm text-gray-500">Other Loans</p>
+            <p class="text-3xl font-bold text-red-600">${{ total_other_loans|floatformat:2|intcomma }}</p>
+        </div>
+    </div>
+
+    <!-- Debt Accounts -->
+    <div class="mt-12">
+        <h3 class="text-xl font-semibold mb-4">Your Debt Accounts</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for account in loan_accounts %}
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow hover:shadow-lg transition">
+                <div class="flex justify-between">
+                    <div>
+                        <p class="font-semibold">{{ account.name }}</p>
+                        <p class="text-sm text-gray-500">{{ account.item.institution_name }}</p>
+                    </div>
+                    <p class="text-2xl font-bold text-red-600">
+                        ${{ account.current_balance|floatformat:2|intcomma }}
+                    </p>
+                </div>
+                <p class="text-xs uppercase mt-3 text-gray-400">
+                    {{ account.account_type|upper }} • {{ account.account_subtype|default:"—" }}
+                </p>
+            </div>
+            {% empty %}
+            <p class="col-span-full text-gray-500">No loan or credit card accounts linked yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

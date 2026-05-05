@@ -1,0 +1,40 @@
+{% extends "_base.html" %}
+{% load humanize %}
+
+{% block title %}Dashboard - FinTrack{% endblock %}
+
+{% block content %}
+<div class="space-y-8 max-w-7xl mx-auto p-6">
+
+  <h1 class="text-4xl font-bold text-gray-900">
+    Good morning, {{ request.user.first_name|default:request.user.username }} 👋
+  </h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="bg-white rounded-3xl shadow p-6">
+      <p class="text-sm font-medium text-gray-500">Net Worth</p>
+      <p class="text-4xl font-bold text-gray-900 mt-3">$142,890</p>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow p-6">
+      <p class="text-sm font-medium text-gray-500">MTD Income</p>
+      <p class="text-4xl font-bold text-emerald-600 mt-3">$8,750</p>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow p-6">
+      <p class="text-sm font-medium text-gray-500">MTD Expenses</p>
+      <p class="text-4xl font-bold text-rose-600 mt-3">$6,300</p>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow p-6">
+      <p class="text-sm font-medium text-gray-500">Savings Rate</p>
+      <p class="text-4xl font-bold text-purple-600 mt-3">28%</p>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-3xl shadow p-8 text-center py-12">
+    <p class="text-gray-500 text-lg">More sections coming soon...</p>
+  </div>
+
+</div>
+{% endblock %}

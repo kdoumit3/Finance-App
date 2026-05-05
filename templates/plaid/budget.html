@@ -1,0 +1,72 @@
+{% extends "_base_dashboard.html" %}
+{% load humanize %}
+
+{% block title %}Budget{% endblock %}
+
+{% block content %}
+<div class="px-6 max-w-7xl mx-auto">
+    <h2 class="text-3xl font-semibold text-gray-700 dark:text-gray-400">Budget</h2>
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
+            <p class="text-sm text-gray-500">Total Budgeted (MTD)</p>
+            <p class="text-4xl font-bold">${{ total_budgeted|floatformat:2|intcomma }}</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
+            <p class="text-sm text-gray-500">Spent This Month</p>
+            <p class="text-4xl font-bold text-red-600">${{ total_spent_mtd|floatformat:2|intcomma }}</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
+            <p class="text-sm text-gray-500">Remaining</p>
+            <p class="text-4xl font-bold text-green-600">
+                ${{ remaining_budget|floatformat:2|intcomma }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Budget Table -->
+    <div class="mt-12">
+        <h3 class="text-xl font-semibold mb-4">Budget by Category</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow overflow-hidden">
+            <table class="w-full">
+                <thead class="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                        <th class="px-6 py-4 text-left">Category</th>
+                        <th class="px-6 py-4 text-right">Budgeted</th>
+                        <th class="px-6 py-4 text-right">Spent (MTD)</th>
+                        <th class="px-6 py-4 text-right">Remaining</th>
+                        <th class="px-6 py-4 text-center">Progress</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    {% for item in budget_data %}
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <td class="px-6 py-4 font-medium">{{ item.category.name }}</td>
+                        <td class="px-6 py-4 text-right">${{ item.budgeted|floatformat:2|intcomma }}</td>
+                        <td class="px-6 py-4 text-right text-red-600">
+                            ${{ item.mtd_spent|floatformat:2|intcomma }}
+                        </td>
+                        <td class="px-6 py-4 text-right font-semibold">
+                            ${{ item.remaining|floatformat:2|intcomma }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-red-600 h-2.5 rounded-full" 
+                                     style="width: {{ item.percent_used|floatformat:0 }}%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="px-6 py-8 text-center text-gray-500">
+                            No budget categories created yet. <a href="#" class="text-blue-600">Create one →</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
