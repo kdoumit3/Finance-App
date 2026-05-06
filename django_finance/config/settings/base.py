@@ -220,3 +220,11 @@ CELERY_TIMEZONE = TIME_ZONE
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
+# === TEMPORARY PLAID DEBUG ===
+print("🔍 PLAID SETTINGS DEBUG")
+print(f"PLAID_ENV from .env       : {os.getenv('PLAID_ENV')}")
+print(f"PLAID_ENV in settings    : {PLAID_ENV}")
+print(f"PLAID_CLIENT_ID present? : {'YES' if PLAID_CLIENT_ID else 'NO'}")
+print(f"PLAID_SECRET present?    : {'YES' if PLAID_SECRET else 'NO'}")
+print("=========================")

@@ -77,3 +77,12 @@ class PlaidConfig:
 
 
 plaid_config = PlaidConfig()
+
+def _get_plaid_environment(self) -> plaid.Environment:
+    env = settings.PLAID_ENV
+    print(f"🔍 PlaidConfig initializing with PLAID_ENV = {env}")   # ← Add this
+    if env == "production":
+        return plaid.Environment.Production
+    if env == "sandbox":
+        return plaid.Environment.Sandbox
+    return plaid.Environment.Sandbox
